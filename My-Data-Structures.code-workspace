@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "Binary-Tree"
+		},
+		{
+			"path": "Linked-List"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"xstring": "cpp",
+			"xutility": "cpp"
+		}
+	}
+}
