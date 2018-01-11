@@ -2,16 +2,14 @@
 
 Node::Node()
     : data(0)
-    , left(nullptr)
-    , right(nullptr)
+    , next(nullptr)
 {
 
 }
 
-Node::Node(int data, Node * left, Node * right)
+Node::Node(int data, Node * next)
     : data(data)
-    , left(left)
-    , right(right)
+    , next(next)
 {
 
 }
