@@ -4,12 +4,11 @@
 struct Node
 {
     Node();
-    Node(int data, Node * left, Node * right);
+    Node(int data, Node * next);
     ~Node();
 
     int data;
-    Node * left;
-    Node * right;
+    Node * next;
 };
 
 #endif // NODE_H
