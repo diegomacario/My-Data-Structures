@@ -17,6 +17,7 @@ Node * buildWithSpecialCaseUsingPush(int data[], size_t numOfNodes);
 
 int main(int argc, char * argv[])
 {
+    // Hello
     int data[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     Node * head = buildWithSpecialCaseUsingPush(data, 10);
 
