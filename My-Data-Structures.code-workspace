@@ -5,12 +5,16 @@
 		},
 		{
 			"path": "Linked-List"
+		},
+		{
+			"path": "Linked-List-Problems"
 		}
 	],
 	"settings": {
 		"files.associations": {
 			"xstring": "cpp",
-			"xutility": "cpp"
+			"xutility": "cpp",
+			"xlocale": "cpp"
 		}
 	}
 }
