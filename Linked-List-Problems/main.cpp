@@ -14,6 +14,10 @@ void   DeleteList(Node *& head);
 int    Pop(Node *& head);
 void   InsertNth(Node *& head, int index, int data);
 void   SortedInsert(Node *& head, Node * newNode);
+void   SortedInsertWithDummy(Node *& head, Node * newNode);
+void   SortedInsertWithLocalReference(Node *& head, Node * newNode);
+void   InsertSort(Node *& head);
+void   Append(Node *& headA, Node *& headB);
 
 int main(int argc, char * argv[])
 {
@@ -25,22 +29,45 @@ int main(int argc, char * argv[])
 
     cout << "Sorted insert 0:" << endl;
     Node * newNode1 = new Node(0, nullptr);
-    SortedInsert(head, newNode1);
+    SortedInsertWithLocalReference(head, newNode1);
     printNodes(head);
 
     cout << "Sorted insert 5:" << endl;
     Node * newNode2 = new Node(5, nullptr);
-    SortedInsert(head, newNode2);
+    SortedInsertWithLocalReference(head, newNode2);
     printNodes(head);
 
     cout << "Sorted insert 9:" << endl;
     Node * newNode3 = new Node(9, nullptr);
-    SortedInsert(head, newNode3);
+    SortedInsertWithLocalReference(head, newNode3);
     printNodes(head);
 
     cout << "Sorted insert 12:" << endl;
     Node * newNode4 = new Node(12, nullptr);
-    SortedInsert(head, newNode4);
+    SortedInsertWithLocalReference(head, newNode4);
+    printNodes(head);
+
+    cout << "Sorted insert 0:" << endl;
+    Node * newNode5 = new Node(0, nullptr);
+    SortedInsertWithLocalReference(head, newNode5);
+    printNodes(head);
+
+    cout << "Sorted insert 12:" << endl;
+    Node * newNode6 = new Node(12, nullptr);
+    SortedInsertWithLocalReference(head, newNode6);
+    printNodes(head);
+
+    cout << "Insert sort:" << endl;
+    int data2[12] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1};
+    Node * head2 = buildLinkedList(data2, 12);
+    cout << "Insert sort: Before" << endl;
+    printNodes(head2);
+    InsertSort(head2);
+    cout << "Insert sort: After" << endl;
+    printNodes(head2);
+
+    cout << "Append:" << endl;
+    Append(head, head2);
     printNodes(head);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
@@ -214,29 +241,104 @@ void InsertNth(Node *& head, int index, int data)
 // Linked list must already be sorted in increasing order
 void SortedInsert(Node *& head, Node * newNode)
 {
-    if (head == nullptr || (newNode->data <= head->data))
+    // First node is a special case
+    if (head == nullptr || newNode->data < head->data)
     {
         newNode->next = head;
         head = newNode;
         return;
     }
 
-    Node * prevNode = head;
-    Node * postNode = head->next;
-
-    while (postNode != nullptr)
+    // When we exit this loop, current points to the node after which
+    // we should insert the new node
+    Node * current = head;
+    while (current->next != nullptr)
     {
-        if (newNode->data >= prevNode->data &&
-            newNode->data <= postNode->data)
+        if (newNode->data < current->next->data)
         {
-            newNode->next = prevNode->next;
-            prevNode->next = newNode;
-            return;
+            break;
         }
 
-        prevNode = postNode;
-        postNode = postNode->next;
+        current = current->next;
     }
 
-    prevNode->next = newNode;
+    newNode->next = current->next;
+    current->next = newNode;
+}
+
+// Problem 6: SortedInsert (alternative solution)
+// Linked list must already be sorted in increasing order
+void SortedInsertWithDummy(Node *& head, Node * newNode)
+{
+    Node dummy(0, head);
+
+    Node * current = &dummy;
+    while (current->next != nullptr)
+    {
+        if (newNode->data < current->next->data)
+        {
+            break;
+        }
+        current = current->next;
+    }
+
+    newNode->next = current->next;
+    current->next = newNode;
+    head = dummy.next;
+}
+
+// Problem 6: SortedInsert (alternative solution)
+// Linked list must already be sorted in increasing order
+void SortedInsertWithLocalReference(Node *& head, Node * newNode)
+{
+    Node ** currentRef = &head;
+    while (*currentRef != nullptr)
+    {
+        if (newNode->data < (*currentRef)->data)
+        {
+            break;
+        }
+        currentRef = &((*currentRef)->next);
+    }
+
+    newNode->next = *currentRef;
+    *currentRef = newNode;
+}
+
+// Problem 7: InsertSort
+// Must use SortedInsert
+void InsertSort(Node *& head)
+{
+    Node * newHead = nullptr;
+
+    Node * current = head;
+    Node * next;
+    while (current != nullptr)
+    {
+        next = current->next;
+        SortedInsert(newHead, current); // This function changes the next value of the node we pass to it
+        current = next;
+    }
+
+    head = newHead;
+}
+
+// Problem 8: Append
+void Append(Node *& headA, Node *& headB)
+{
+    if (headA == nullptr)
+    {
+        headA = headB;
+        headB = nullptr;
+        return;
+    }
+
+    Node * current = headA;
+    while (current->next != nullptr)
+    {
+        current = current->next;
+    }
+
+    current->next = headB;
+    headB = nullptr;
 }
