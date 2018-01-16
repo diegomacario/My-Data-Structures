@@ -18,6 +18,8 @@ void   SortedInsertWithDummy(Node *& head, Node * newNode);
 void   SortedInsertWithLocalReference(Node *& head, Node * newNode);
 void   InsertSort(Node *& head);
 void   Append(Node *& headA, Node *& headB);
+void   FrontBackSplit(Node * source, Node *& front, Node *& back);
+void   FrontBackSplit2(Node * source, Node *& front, Node *& back);
 
 int main(int argc, char * argv[])
 {
@@ -69,6 +71,17 @@ int main(int argc, char * argv[])
     cout << "Append:" << endl;
     Append(head, head2);
     printNodes(head);
+
+    cout << "Front back split:" << endl;
+    int data3[] = {1, 2, 3, 4, 5};
+    Node * source = buildLinkedList(data3, 5);
+    Node * front;
+    Node * back;
+    FrontBackSplit2(source, front, back);
+    cout << "Front:" << endl;
+    printNodes(front);
+    cout << "Back:" << endl;
+    printNodes(back);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
     cout << "Pop 0: " << Pop(head) << endl;
@@ -341,4 +354,71 @@ void Append(Node *& headA, Node *& headB)
 
     current->next = headB;
     headB = nullptr;
+}
+
+// Problem 9: FrontBackSplit
+void FrontBackSplit(Node * source, Node *& front, Node *& back)
+{
+    if (source == nullptr)
+    {
+        front = nullptr;
+        back = nullptr;
+        return;
+    }
+
+    // Count the number of nodes in the source
+    int count = 0;
+    Node * current = source;
+    while (current != nullptr)
+    {
+        ++count;
+        current = current->next;
+    }
+
+    current = source;
+    for (int i = 0; i < ((count / 2) - 1); ++i)
+    {
+        current = current->next;
+    }
+
+    if (count % 2 == 1) // Odd
+    {
+        // Advance one more step
+        current = current->next;
+    }
+
+    front = source;
+    back = current->next;
+    current->next = nullptr;
+}
+
+// Problem 9: FrontBackSplit (alternative solution)
+void FrontBackSplit2(Node * source, Node *& front, Node *& back)
+{
+    // Take care of 2 cases: empty linked list and linked list of length 1 
+    if (source == nullptr || source->next == nullptr)
+    {
+        front = source;
+        back = nullptr;
+        return;
+    }
+
+    // Fast advances two steps for every step slow takes
+    // If fast cannot advance or can only advance one step, slow does not advance
+    Node * slow = source;
+    Node * fast = source->next;
+
+    while (fast != nullptr)
+    {
+        fast = fast->next;
+        if (fast != nullptr)
+        {
+            fast = fast->next;
+            slow = slow->next;
+        }
+    }
+
+    front = source;
+    back = slow->next;
+    slow->next = nullptr;
 }
