@@ -20,6 +20,10 @@ void   InsertSort(Node *& head);
 void   Append(Node *& headA, Node *& headB);
 void   FrontBackSplit(Node * source, Node *& front, Node *& back);
 void   FrontBackSplit2(Node * source, Node *& front, Node *& back);
+void   RemoveDuplicates(Node * head);
+void   RemoveDuplicates2(Node * head);
+void   MoveNode(Node *& destination, Node *& source);
+void   AlternatingSplit(Node * source, Node *& a, Node *& b);
 
 int main(int argc, char * argv[])
 {
@@ -82,6 +86,37 @@ int main(int argc, char * argv[])
     printNodes(front);
     cout << "Back:" << endl;
     printNodes(back);
+
+    cout << "Remove duplicates:" << endl;
+    int data4[] = {0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 4, 4, 4, 4};
+    Node * linkedListWithDuplicates = buildLinkedList(data4, 14);
+    cout << "Before:" << endl;
+    printNodes(linkedListWithDuplicates);
+    cout << "After:" << endl;
+    RemoveDuplicates2(linkedListWithDuplicates);
+    printNodes(linkedListWithDuplicates);
+
+    cout << "Move node:" << endl;
+    int data5[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int data6[] = {5, 6, 7, 8};
+    Node * destForMove = buildLinkedList(data5, 9);
+    Node * srcForMove = buildLinkedList(data6, 3);
+    //MoveNode(destForMove, srcForMove);
+    cout << "Dst:" << endl;
+    printNodes(destForMove);
+    cout << "Src:" << endl;
+    printNodes(srcForMove);
+
+    cout << "Alternating split:" << endl;
+    Node * a;
+    Node * b;
+    cout << "Total:" << endl;
+    printNodes(destForMove);
+    AlternatingSplit(destForMove, a, b);
+    cout << "A:" << endl;
+    printNodes(a);
+    cout << "B:" << endl;
+    printNodes(b);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
     cout << "Pop 0: " << Pop(head) << endl;
@@ -421,4 +456,121 @@ void FrontBackSplit2(Node * source, Node *& front, Node *& back)
     front = source;
     back = slow->next;
     slow->next = nullptr;
+}
+
+// Problem 10: RemoveDuplicates
+// Linked list must already be sorted in increasing order
+void RemoveDuplicates(Node * head)
+{
+    if (head == nullptr)
+    {
+        return;
+    }
+
+    int currentValue;
+    Node * current = head;
+    Node * nextNode = nullptr;
+    while (current != nullptr)
+    {
+        currentValue = current->data;
+        nextNode = current->next;
+
+        while (nextNode != nullptr && nextNode->data == currentValue)
+        {
+            current->next = nextNode->next;
+            delete nextNode;
+            nextNode = current->next;
+        }
+
+        current = nextNode;
+    }
+}
+
+// Problem 10: RemoveDuplicates (alternative solution)
+// Linked list must already be sorted in increasing order
+void RemoveDuplicates2(Node * head)
+{
+    if (head == nullptr)
+    {
+        return;
+    }
+
+    Node * current = head;
+    Node * nextNext = nullptr;
+    while (current->next != nullptr)
+    {
+        if (current->data == current->next->data)
+        {
+            nextNext = current->next->next;
+            delete current->next;
+            current->next = nextNext;
+        }
+        else
+        {
+            current = current->next;
+        }
+    }
+}
+
+// Problem 11: MoveNode
+void MoveNode(Node *& destination, Node *& source)
+{
+    if (source == nullptr)
+    {
+        return;
+    }
+
+    Node * newHeadOfSource = source->next;
+
+    source->next = destination;
+    destination = source;
+
+    source = newHeadOfSource;
+}
+
+// Problem 12: AlternatingSplit
+void AlternatingSplit(Node * source, Node *& a, Node *& b)
+{
+    if (source == nullptr)
+    {
+        a = nullptr;
+        b = nullptr;
+        return;
+    }
+
+    Node * current = source;
+    a = current;
+    current = current->next;
+    b = current;
+
+    if (current == nullptr)
+    {
+        return;
+    }
+
+    current = current->next;
+
+    bool turnOfA = true;
+    Node * currentA = a;
+    Node * currentB = b;
+    while (current != nullptr)
+    {
+        if (turnOfA)
+        {
+            currentA->next = current;
+            currentA = currentA->next;
+            current = current->next;
+            turnOfA = false;
+        }
+        else
+        {
+            currentB->next = current;
+            currentB = currentB->next;
+            current = current->next;
+            turnOfA = true;
+        }
+    }
+
+    currentA->next = nullptr;
+    currentB->next = nullptr;
 }
