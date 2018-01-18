@@ -24,6 +24,8 @@ void   RemoveDuplicates(Node * head);
 void   RemoveDuplicates2(Node * head);
 void   MoveNode(Node *& destination, Node *& source);
 void   AlternatingSplit(Node * source, Node *& a, Node *& b);
+Node * ShuffleMerge(Node * a, Node * b);
+Node * ShuffleMerge2(Node * a, Node * b);
 
 int main(int argc, char * argv[])
 {
@@ -97,26 +99,30 @@ int main(int argc, char * argv[])
     printNodes(linkedListWithDuplicates);
 
     cout << "Move node:" << endl;
-    int data5[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    int data6[] = {5, 6, 7, 8};
-    Node * destForMove = buildLinkedList(data5, 9);
-    Node * srcForMove = buildLinkedList(data6, 3);
+    int data5[] = {1, 3, 5, 7};
+    int data6[] = {2, 4, 6, 8};
+    Node * destForMove = buildLinkedList(data5, 4);
+    Node * srcForMove = buildLinkedList(data6, 4);
     //MoveNode(destForMove, srcForMove);
     cout << "Dst:" << endl;
     printNodes(destForMove);
     cout << "Src:" << endl;
     printNodes(srcForMove);
 
-    cout << "Alternating split:" << endl;
-    Node * a;
-    Node * b;
-    cout << "Total:" << endl;
-    printNodes(destForMove);
-    AlternatingSplit(destForMove, a, b);
-    cout << "A:" << endl;
-    printNodes(a);
-    cout << "B:" << endl;
-    printNodes(b);
+    //cout << "Alternating split:" << endl;
+    //Node * a;
+    //Node * b;
+    //cout << "Total:" << endl;
+    //printNodes(destForMove);
+    //AlternatingSplit(destForMove, a, b);
+    //cout << "A:" << endl;
+    //printNodes(a);
+    //cout << "B:" << endl;
+    //printNodes(b);
+
+    cout << "Shuffle:" << endl;
+    Node * shuffle = ShuffleMerge2(destForMove, srcForMove);
+    printNodes(shuffle);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
     cout << "Pop 0: " << Pop(head) << endl;
@@ -573,4 +579,70 @@ void AlternatingSplit(Node * source, Node *& a, Node *& b)
 
     currentA->next = nullptr;
     currentB->next = nullptr;
+}
+
+// Problem 13: ShuffleMerge
+Node * ShuffleMerge(Node * a, Node * b)
+{
+    if (a == nullptr)
+    {
+        return b;
+    }
+
+    Node * currentA = a;
+    Node * currentB = b;
+    Node * headShuffled = nullptr;
+    Node * currentShuffled = nullptr;
+
+    MoveNode(headShuffled, currentA);
+    currentShuffled = headShuffled;
+
+    while (currentA != nullptr || currentB != nullptr)
+    {
+        if (currentB != nullptr)
+        {
+            MoveNode(currentShuffled->next, currentB);
+            currentShuffled = currentShuffled->next;
+        }
+        if (currentA != nullptr)
+        {
+            MoveNode(currentShuffled->next, currentA);
+            currentShuffled = currentShuffled->next;
+        }
+    }
+
+    return headShuffled;
+}
+
+Node * ShuffleMerge2(Node * a, Node * b)
+{
+    Node dummy;
+    Node * tail = &dummy;
+    dummy.next = nullptr;
+
+    while (1)
+    {
+        if (a == nullptr)
+        {
+            tail->next = b;
+            break;
+        }
+        else if (b == nullptr)
+        {
+            tail->next = a;
+            break;
+        }
+        else
+        {
+            tail->next = a;
+            tail = tail->next;
+            a = a->next;
+
+            tail->next = b;
+            tail = tail->next;
+            b = b->next;
+        }
+    }
+
+    return(dummy.next);
 }
