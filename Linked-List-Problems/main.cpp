@@ -26,6 +26,8 @@ void   MoveNode(Node *& destination, Node *& source);
 void   AlternatingSplit(Node * source, Node *& a, Node *& b);
 Node * ShuffleMerge(Node * a, Node * b);
 Node * ShuffleMerge2(Node * a, Node * b);
+Node * SortedMerge(Node * a, Node * b);
+Node * SortedMerge2(Node * a, Node * b);
 
 int main(int argc, char * argv[])
 {
@@ -121,7 +123,7 @@ int main(int argc, char * argv[])
     //printNodes(b);
 
     cout << "Shuffle:" << endl;
-    Node * shuffle = ShuffleMerge2(destForMove, srcForMove);
+    Node * shuffle = SortedMerge2(destForMove, srcForMove);
     printNodes(shuffle);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
@@ -614,6 +616,7 @@ Node * ShuffleMerge(Node * a, Node * b)
     return headShuffled;
 }
 
+// Problem 13: ShuffleMerge (alternative solution)
 Node * ShuffleMerge2(Node * a, Node * b)
 {
     Node dummy;
@@ -645,4 +648,74 @@ Node * ShuffleMerge2(Node * a, Node * b)
     }
 
     return(dummy.next);
+}
+
+// Problem 14: SortedMerge
+Node * SortedMerge(Node * a, Node * b)
+{
+    Node dummy;
+    Node * current = &dummy;
+
+    while (true)
+    {
+        if (a == nullptr)
+        {
+            current->next = b;
+            break;
+        }
+        else if (b == nullptr)
+        {
+            current->next = a;
+            break;
+        }
+        else if (a->data <= b->data)
+        {
+            current->next = a;
+            current = current->next;
+            a = a->next;
+        }
+        else if (b->data < a->data) // This could just an else statement
+        {
+            current->next = b;
+            current = current->next;
+            b = b->next;
+        }
+    }
+
+    return dummy.next;
+}
+
+// Problem 14: SortedMerge (alternative solution)
+Node * SortedMerge2(Node * a, Node * b)
+{
+    Node * head;
+    Node ** tail = &head;
+
+    while (true)
+    {
+        if (a == nullptr)
+        {
+            *tail = b;
+            break;
+        }
+        else if (b == nullptr)
+        {
+            *tail = a;
+            break;
+        }
+        else if (a->data <= b->data)
+        {
+            *tail = a;
+            tail = &((*tail)->next);
+            a = a->next;
+        }
+        else
+        {
+            *tail = b;
+            tail = &((*tail)->next);
+            b = b->next;
+        }
+    }
+
+    return head;
 }
