@@ -28,6 +28,7 @@ Node * ShuffleMerge(Node * a, Node * b);
 Node * ShuffleMerge2(Node * a, Node * b);
 Node * SortedMerge(Node * a, Node * b);
 Node * SortedMerge2(Node * a, Node * b);
+void   MergeSort(Node *& head);
 
 int main(int argc, char * argv[])
 {
@@ -101,9 +102,9 @@ int main(int argc, char * argv[])
     printNodes(linkedListWithDuplicates);
 
     cout << "Move node:" << endl;
-    int data5[] = {1, 3, 5, 7};
+    int data5[] = {7, 6, 5, 4, 3, 2, 1};
     int data6[] = {2, 4, 6, 8};
-    Node * destForMove = buildLinkedList(data5, 4);
+    Node * destForMove = buildLinkedList(data5, 7);
     Node * srcForMove = buildLinkedList(data6, 4);
     //MoveNode(destForMove, srcForMove);
     cout << "Dst:" << endl;
@@ -122,9 +123,9 @@ int main(int argc, char * argv[])
     //cout << "B:" << endl;
     //printNodes(b);
 
-    cout << "Shuffle:" << endl;
-    Node * shuffle = SortedMerge2(destForMove, srcForMove);
-    printNodes(shuffle);
+    cout << "MergeSort:" << endl;
+    MergeSort(destForMove);
+    printNodes(destForMove);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
     cout << "Pop 0: " << Pop(head) << endl;
@@ -718,4 +719,60 @@ Node * SortedMerge2(Node * a, Node * b)
     }
 
     return head;
+}
+
+// Problem 15: MergeSort
+// Given FrontBackSplit and SortedMerge, write a classic recursive Merge Sort
+void MergeSort(Node *& head)
+{
+    if (head == nullptr || head->next == nullptr)
+    {
+        return;
+    }
+
+    // Split list into two smaller lists, recursively sort those lists,
+    // and finally merge them together into a single sorted list.
+    Node * front = nullptr;
+    Node * back = nullptr;
+
+    FrontBackSplit2(head, front, back);
+
+    MergeSort(front);
+    MergeSort(back);
+
+    head = SortedMerge(front, back);
+}
+
+// Problem 16: Sorted Intersect
+// Given two lists sorted in increasing order, create and return a new list representing
+// intersection of the two lists. The original lists should not be changed.
+Node * SortedIntersect(Node * a, Node * b)
+{
+    Node * currentA = a;
+    Node * currentB = b;
+    Node dummy;
+    Node * current = &dummy;
+
+    while (true)
+    {
+        if (currentA == nullptr || currentB == nullptr)
+        {
+            return dummy.next;
+        }
+        else if (currentA->data < currentB->data)
+        {
+            currentA = currentA->next;
+        }
+        else if (currentB->data < currentA->data)
+        {
+            currentB = currentB->next;
+        }
+        else
+        {
+            current->next = new Node(currentA->data, nullptr);
+            current = current->next;
+            currentA = currentA->next;
+            currentB = currentB->next;
+        }
+    }
 }
