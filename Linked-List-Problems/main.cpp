@@ -29,6 +29,8 @@ Node * ShuffleMerge2(Node * a, Node * b);
 Node * SortedMerge(Node * a, Node * b);
 Node * SortedMerge2(Node * a, Node * b);
 void   MergeSort(Node *& head);
+Node * SortedIntersect(Node * a, Node * b);
+void   Reverse(Node *& head);
 
 int main(int argc, char * argv[])
 {
@@ -102,10 +104,10 @@ int main(int argc, char * argv[])
     printNodes(linkedListWithDuplicates);
 
     cout << "Move node:" << endl;
-    int data5[] = {7, 6, 5, 4, 3, 2, 1};
-    int data6[] = {2, 4, 6, 8};
-    Node * destForMove = buildLinkedList(data5, 7);
-    Node * srcForMove = buildLinkedList(data6, 4);
+    int data5[] = {1};
+    int data6[] = {3, 4, 7, 8, 13, 20};
+    Node * destForMove = buildLinkedList(data5, 1);
+    Node * srcForMove = buildLinkedList(data6, 6);
     //MoveNode(destForMove, srcForMove);
     cout << "Dst:" << endl;
     printNodes(destForMove);
@@ -123,8 +125,8 @@ int main(int argc, char * argv[])
     //cout << "B:" << endl;
     //printNodes(b);
 
-    cout << "MergeSort:" << endl;
-    MergeSort(destForMove);
+    cout << "Reverse:" << endl;
+    Reverse(destForMove);
     printNodes(destForMove);
 
     cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
@@ -753,13 +755,9 @@ Node * SortedIntersect(Node * a, Node * b)
     Node dummy;
     Node * current = &dummy;
 
-    while (true)
+    while (currentA != nullptr && currentB != nullptr)
     {
-        if (currentA == nullptr || currentB == nullptr)
-        {
-            return dummy.next;
-        }
-        else if (currentA->data < currentB->data)
+        if (currentA->data < currentB->data)
         {
             currentA = currentA->next;
         }
@@ -775,4 +773,64 @@ Node * SortedIntersect(Node * a, Node * b)
             currentB = currentB->next;
         }
     }
+
+    return dummy.next;
+}
+
+// Problem 17: Reverse
+void Reverse(Node *& head)
+{
+    if (head == nullptr || head->next == nullptr)
+    {
+        return;
+    }
+    else if (head->next->next == nullptr)
+    {
+        // Reverse the only 2 nodes
+        Node * newHead = head->next;
+        newHead->next = head;
+        head->next = nullptr;
+        head = newHead;
+        return;
+    }
+
+    Node * tail = head;
+    Node * tail2 = tail->next;
+    Node * tail3 = tail2->next;
+
+    // Reverse the first 2 nodes
+    tail2->next = tail;
+    tail->next = nullptr;
+
+    tail = tail2;
+    tail2 = tail3;
+    tail3 = tail3->next;
+    while (tail3 != nullptr)
+    {
+        tail2->next = tail;
+        tail = tail2;
+        tail2 = tail3;
+        tail3 = tail3->next;
+    }
+
+    tail2->next = tail;
+    head = tail2;
+}
+
+// Problem 17: Reverse (alternative solution)
+void Reverse(Node *& head)
+{
+    Node * result = nullptr;
+    Node * current = head;
+    Node * next;
+
+    while (current != nullptr)
+    {
+        next = current->next;
+        current->next = result;
+        result = current;
+        current = next;
+    }
+
+    head = result;
 }
