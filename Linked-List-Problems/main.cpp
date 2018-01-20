@@ -31,6 +31,8 @@ Node * SortedMerge2(Node * a, Node * b);
 void   MergeSort(Node *& head);
 Node * SortedIntersect(Node * a, Node * b);
 void   Reverse(Node *& head);
+void   Reverse2(Node *& head);
+void   RecursiveReverse(Node *& head);
 
 int main(int argc, char * argv[])
 {
@@ -50,38 +52,25 @@ int main(int argc, char * argv[])
     SortedInsertWithLocalReference(head, newNode2);
     printNodes(head);
 
-    cout << "Sorted insert 9:" << endl;
-    Node * newNode3 = new Node(9, nullptr);
-    SortedInsertWithLocalReference(head, newNode3);
-    printNodes(head);
-
-    cout << "Sorted insert 12:" << endl;
-    Node * newNode4 = new Node(12, nullptr);
-    SortedInsertWithLocalReference(head, newNode4);
-    printNodes(head);
-
-    cout << "Sorted insert 0:" << endl;
-    Node * newNode5 = new Node(0, nullptr);
-    SortedInsertWithLocalReference(head, newNode5);
-    printNodes(head);
-
-    cout << "Sorted insert 12:" << endl;
-    Node * newNode6 = new Node(12, nullptr);
-    SortedInsertWithLocalReference(head, newNode6);
-    printNodes(head);
+    cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
+    cout << "Pop 0: " << Pop(head) << endl;
+    cout << "The length of the linked list is: " << length(head) << endl;
 
     cout << "Insert sort:" << endl;
     int data2[12] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1};
     Node * head2 = buildLinkedList(data2, 12);
-    cout << "Insert sort: Before" << endl;
+    cout << "Before:" << endl;
     printNodes(head2);
+    cout << "After" << endl;
     InsertSort(head2);
-    cout << "Insert sort: After" << endl;
     printNodes(head2);
 
     cout << "Append:" << endl;
     Append(head, head2);
     printNodes(head);
+
+    DeleteList(head);
+    DeleteList(head2);
 
     cout << "Front back split:" << endl;
     int data3[] = {1, 2, 3, 4, 5};
@@ -94,6 +83,9 @@ int main(int argc, char * argv[])
     cout << "Back:" << endl;
     printNodes(back);
 
+    DeleteList(front);
+    DeleteList(back);
+
     cout << "Remove duplicates:" << endl;
     int data4[] = {0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 4, 4, 4, 4};
     Node * linkedListWithDuplicates = buildLinkedList(data4, 14);
@@ -103,37 +95,15 @@ int main(int argc, char * argv[])
     RemoveDuplicates2(linkedListWithDuplicates);
     printNodes(linkedListWithDuplicates);
 
-    cout << "Move node:" << endl;
-    int data5[] = {1};
-    int data6[] = {3, 4, 7, 8, 13, 20};
-    Node * destForMove = buildLinkedList(data5, 1);
-    Node * srcForMove = buildLinkedList(data6, 6);
-    //MoveNode(destForMove, srcForMove);
-    cout << "Dst:" << endl;
-    printNodes(destForMove);
-    cout << "Src:" << endl;
-    printNodes(srcForMove);
-
-    //cout << "Alternating split:" << endl;
-    //Node * a;
-    //Node * b;
-    //cout << "Total:" << endl;
-    //printNodes(destForMove);
-    //AlternatingSplit(destForMove, a, b);
-    //cout << "A:" << endl;
-    //printNodes(a);
-    //cout << "B:" << endl;
-    //printNodes(b);
+    DeleteList(linkedListWithDuplicates);
 
     cout << "Reverse:" << endl;
-    Reverse(destForMove);
-    printNodes(destForMove);
+    int data5[] = {6, 7, 8, 5, 4, 3, 2, 1};
+    Node * toReverse = buildLinkedList(data5, 8);
+    RecursiveReverse(toReverse);
+    printNodes(toReverse);
 
-    cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
-    cout << "Pop 0: " << Pop(head) << endl;
-    cout << "The length of the linked list is: " << length(head) << endl;
-
-    DeleteList(head);
+    DeleteList(toReverse);
 
     int x;
     cin >> x;
@@ -818,7 +788,7 @@ void Reverse(Node *& head)
 }
 
 // Problem 17: Reverse (alternative solution)
-void Reverse(Node *& head)
+void Reverse2(Node *& head)
 {
     Node * result = nullptr;
     Node * current = head;
@@ -833,4 +803,21 @@ void Reverse(Node *& head)
     }
 
     head = result;
+}
+
+// Problem 18: RecursiveReverse
+void RecursiveReverse(Node *& head)
+{
+    if (head == nullptr || head->next == nullptr) return;
+
+    Node * back = head;
+    Node * front = back->next;
+
+    RecursiveReverse(front); // Each time this function is called, the front pointer is advanced 1 position
+                             // until it points to the last node
+
+    back->next->next = back; // We can't use front->next because front is modified by the call above
+    back->next = nullptr;    // This ensure that the next pointer of the new tail points to null
+
+    head = front;
 }
