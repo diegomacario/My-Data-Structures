@@ -817,7 +817,7 @@ void RecursiveReverse(Node *& head)
                              // until it points to the last node
 
     back->next->next = back; // We can't use front->next because front is modified by the call above
-    back->next = nullptr;    // This ensure that the next pointer of the new tail points to null
+    back->next = nullptr;    // This ensures that the next pointer of the new tail points to null
 
     head = front;
 }

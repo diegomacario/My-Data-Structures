@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Linked-List-Problems"
+		},
+		{
+			"path": "Binary-Tree-Problems"
 		}
 	],
 	"settings": {
