@@ -6,6 +6,10 @@ using namespace std;
 
 bool lookup(Node * root, int target);
 void insert(Node *& root, int data);
+void myPrintTree(Node * root);
+int  size(Node * root);
+int  maxDepth(Node * root);
+int  minValue(Node * root);
 void printTree(Node * root);
 
 int main(int argc, char * argv[])
@@ -33,7 +37,14 @@ int main(int argc, char * argv[])
     insert(root, 7);
     insert(root, 10);
     insert(root, 2);
+    //insert(root, -1);
+    //insert(root, -2);
 
+    myPrintTree(root);
+    cout << "size: " << size(root) << endl;
+    cout << "maxDepth: " << maxDepth(root) << endl;
+    cout << "minValue: " << minValue(root) << endl;
+    cout << "printTree:"<< endl;
     printTree(root);
 
     int x;
@@ -78,7 +89,7 @@ void insert(Node *& root, int data)
     }
 }
 
-void printTree(Node * root)
+void myPrintTree(Node * root)
 {
     if (root == nullptr)
     {
@@ -108,7 +119,92 @@ void printTree(Node * root)
 
         cout << endl;
 
+        myPrintTree(root->left);
+        myPrintTree(root->right);
+    }
+}
+
+// Problem 1: build123
+Node * build123()
+{
+    Node * root = new Node(2, nullptr, nullptr);
+    root->left = new Node(1, nullptr, nullptr);
+    root->right = new Node(3, nullptr, nullptr);
+    return root;
+}
+
+// Problem 2: size
+int size(Node * root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+    else
+    {
+        return size(root->left) + 1 + size(root->right);
+    }
+}
+
+// Problem 3: maxDepth
+// Given a binary tree
+int maxDepth(Node * root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    int leftDepth = maxDepth(root->left);
+    int rightDepth = maxDepth(root->right);
+
+    if (leftDepth >= rightDepth)
+    {
+        return (leftDepth + 1);
+    }
+    else
+    {
+        return (rightDepth + 1);
+    }
+}
+
+// Problem 4: minValue
+// Given a binary search tree
+int minValue(Node * root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    if (root->left == nullptr)
+    {
+        return root->data;
+    }
+    else
+    {
+        return minValue(root->left);
+    }
+}
+
+// Problem 5: printTree
+// Given a binary search tree
+void printTree(Node * root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    if (root->left != nullptr)
+    {
         printTree(root->left);
+    }
+
+    cout << root->data << ' ';
+
+    if (root->right != nullptr)
+    {
         printTree(root->right);
     }
 }
