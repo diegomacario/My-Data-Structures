@@ -11,6 +11,7 @@ int  size(Node * root);
 int  maxDepth(Node * root);
 int  minValue(Node * root);
 void printTree(Node * root);
+void printPostorder(Node * root);
 
 int main(int argc, char * argv[])
 {
@@ -46,6 +47,9 @@ int main(int argc, char * argv[])
     cout << "minValue: " << minValue(root) << endl;
     cout << "printTree:"<< endl;
     printTree(root);
+    cout << endl;
+    cout << "printPostorder:"<< endl;
+    printPostorder(root);
 
     int x;
     cin >> x;
@@ -196,15 +200,47 @@ void printTree(Node * root)
         return;
     }
 
-    if (root->left != nullptr)
-    {
-        printTree(root->left);
-    }
+    printTree(root->left);
 
     cout << root->data << ' ';
 
-    if (root->right != nullptr)
+    printTree(root->right);
+}
+
+// Problem 6: printPostorder
+// Given a binary tree
+void printPostorder(Node * root)
+{
+    if (root == nullptr)
     {
-        printTree(root->right);
+        return;
+    }
+
+    printPostorder(root->left);
+
+    printPostorder(root->right);
+
+    cout << root->data << ' ';
+}
+
+// Problem 7: hasPathSum
+// Root-to-left path: sequence of nodes starting with the root node and proceeding downward to a leaf
+// Return true if the binary tree has a root-to-leaf path that results in the given sum
+bool hasPathSum(Node * root, int sum)
+{
+    int rootToLeafSum = 0;
+    Node * current = root;
+
+    while (current->left != nullptr)
+    {
+        sum += current->data;
+    }
+
+    if (root->left == nullptr && root->right == nullptr)
+    {
+        if (rootToLeafSum == sum)
+        {
+            return true;
+        }
     }
 }
