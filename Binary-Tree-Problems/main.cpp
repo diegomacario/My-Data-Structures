@@ -224,23 +224,16 @@ void printPostorder(Node * root)
 }
 
 // Problem 7: hasPathSum
-// Root-to-left path: sequence of nodes starting with the root node and proceeding downward to a leaf
+// Root-to-leaf path: sequence of nodes starting with the root node and proceeding downward to a leaf
 // Return true if the binary tree has a root-to-leaf path that results in the given sum
-bool hasPathSum(Node * root, int sum)
+int hasPathSum(Node * root, int sum)
 {
-    int rootToLeafSum = 0;
-    Node * current = root;
-
-    while (current->left != nullptr)
+    if (root == nullptr)
     {
-        sum += current->data;
+        return (sum == 0);
     }
 
-    if (root->left == nullptr && root->right == nullptr)
-    {
-        if (rootToLeafSum == sum)
-        {
-            return true;
-        }
-    }
+    int subSum = sum - root->data;
+
+    return (hasPathSum(root->left, subSum) || hasPathSum(root->right, subSum));
 }
