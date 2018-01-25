@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "Node.h"
 
@@ -12,6 +13,9 @@ int  maxDepth(Node * root);
 int  minValue(Node * root);
 void printTree(Node * root);
 void printPostorder(Node * root);
+void printPathsHelper(Node * node, vector<int> path);
+void printPaths(Node * root);
+void mirror(Node * root);
 
 int main(int argc, char * argv[])
 {
@@ -50,6 +54,13 @@ int main(int argc, char * argv[])
     cout << endl;
     cout << "printPostorder:"<< endl;
     printPostorder(root);
+    cout << endl;
+    cout << "printPaths:"<< endl;
+    printPaths(root);
+    cout << "mirror:"<< endl;
+    //mirror(root);
+    mirror2(root);
+    myPrintTree(root);
 
     int x;
     cin >> x;
@@ -236,4 +247,64 @@ int hasPathSum(Node * root, int sum)
     int subSum = sum - root->data;
 
     return (hasPathSum(root->left, subSum) || hasPathSum(root->right, subSum));
+}
+
+// Problem 8: printPaths
+// Print all the root-to-leaf paths
+void printPathsHelper(Node * node, vector<int> path)
+{
+    // Add data of node to path array
+    // If node->left && node->right are both null, print the contents of the array
+    // If the left node is not null, call printPathsHelper with node->left
+    // If the right node is not null, call printPathsHelper with node->right
+    path.push_back(node->data);
+
+    if (node->left == nullptr && node->right == nullptr)
+    {
+        for (vector<int>::iterator it = path.begin(); it != path.end(); ++it)
+        {
+            cout << *it << ' ';
+        }
+        cout << endl;
+
+        return;
+    }
+
+    if (node->left != nullptr)
+    {
+        printPathsHelper(node->left, path);
+    }
+
+    if (node->right != nullptr)
+    {
+        printPathsHelper(node->right, path);
+    }
+}
+
+void printPaths(Node * root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    vector<int> path; // We need this to persist
+
+    printPathsHelper(root, path);
+}
+
+// Problem 9: mirror
+void mirror(Node * root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    Node * temp = root->left;
+    root->left = root->right;
+    root->right = temp;
+
+    mirror(root->left);
+    mirror(root->right);
 }
