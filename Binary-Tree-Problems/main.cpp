@@ -16,6 +16,8 @@ void printPostorder(Node * root);
 void printPathsHelper(Node * node, vector<int> path);
 void printPaths(Node * root);
 void mirror(Node * root);
+void doubleTree(Node * root);
+bool sameTree(Node * a, Node * b);
 
 int main(int argc, char * argv[])
 {
@@ -59,8 +61,27 @@ int main(int argc, char * argv[])
     printPaths(root);
     cout << "mirror:"<< endl;
     //mirror(root);
-    mirror2(root);
     myPrintTree(root);
+
+    Node n1(1, nullptr, nullptr);
+    Node n2(3, nullptr, nullptr);
+    Node n3(2, &n1, &n2);
+    Node * root2 = &n3;
+
+    cout << "doubleTree1:"<< endl;
+    doubleTree(root2);
+    printPaths(root2);
+
+    Node n4(1, nullptr, nullptr);
+    Node n5(3, nullptr, nullptr);
+    Node n6(2, &n4, &n5);
+    Node * root3 = &n6;
+
+    cout << "doubleTree2:"<< endl;
+    doubleTree(root3);
+    printPaths(root3);
+
+    cout << "Are doubleTree1 and doubleTree2 equal? " << sameTree(root2, root3) << endl;
 
     int x;
     cin >> x;
@@ -307,4 +328,59 @@ void mirror(Node * root)
 
     mirror(root->left);
     mirror(root->right);
+}
+
+// Problem 10: doubleTree
+void doubleTree(Node * root)
+{
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    Node * newNode = new Node(root->data, root->left, nullptr);
+    root->left = newNode;
+
+    doubleTree(newNode->left);
+    doubleTree(root->right);
+}
+
+// Problem 11: sameTree
+bool sameTree(Node * a, Node * b)
+{
+    if (a == nullptr && b == nullptr)
+    {
+        return true;
+    }
+    else if (a != nullptr && b != nullptr)
+    {
+        if (a->data == b->data)
+        {
+            return (sameTree(a->left, b->left) && sameTree(a->right, b->right));    
+        }
+        else
+        {
+            return false; // The data contained by the nodes is not the same
+        }
+    }
+    else
+    {
+        return false; // One is null and the other isn't
+    }
+}
+
+// Problem 12: countTree 
+// Suppose you are building an N node binary search tree with the values 1..N.
+// How many structurally different  binary search trees are there that store those values?
+// Write a recursive function that, given the number of distinct values, computes the number of structurally unique binary search trees
+// that store those values. For example, countTrees(4) should return 14, since there are 14 
+// structurally unique binary search trees that store 1, 2, 3, and 4. 
+// The base case is easy, and the recursion is short but dense. 
+// Your code should not construct any actual trees; it's just a counting problem.
+int countTrees(int numKeys)
+{
+    if (numKeys == 0)
+    {
+        return 1;
+    }
 }
