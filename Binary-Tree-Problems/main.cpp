@@ -369,18 +369,32 @@ bool sameTree(Node * a, Node * b)
     }
 }
 
-// Problem 12: countTree 
+// Problem 12: countTree
 // Suppose you are building an N node binary search tree with the values 1..N.
 // How many structurally different  binary search trees are there that store those values?
 // Write a recursive function that, given the number of distinct values, computes the number of structurally unique binary search trees
-// that store those values. For example, countTrees(4) should return 14, since there are 14 
-// structurally unique binary search trees that store 1, 2, 3, and 4. 
-// The base case is easy, and the recursion is short but dense. 
+// that store those values. For example, countTrees(4) should return 14, since there are 14
+// structurally unique binary search trees that store 1, 2, 3, and 4.
+// The base case is easy, and the recursion is short but dense.
 // Your code should not construct any actual trees; it's just a counting problem.
 int countTrees(int numKeys)
 {
-    if (numKeys == 0)
-    {
-        return 1;
-    }
+   if (numKeys == 0 || numKeys == 1)
+   {
+      return 1;
+   }
+   else
+   {
+      int sum = 0;
+      int root, left, right;
+
+      for (root = 1; root <= numKeys; ++root)
+      {
+         left = countTrees(root - 1);
+         right = countTrees(numKeys - root);
+         sum += left * right;
+      }
+
+      return sum;
+   }
 }
