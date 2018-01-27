@@ -375,7 +375,7 @@ bool sameTree(Node * a, Node * b)
     }
 }
 
-// Problem 12: countTree 
+// Problem 12: countTree
 // Suppose you are building an N node binary search tree with the values 1..N.
 // How many structurally different binary search trees are there that store those values?
 int countTrees(int numKeys)
