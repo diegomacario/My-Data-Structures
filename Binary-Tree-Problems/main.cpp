@@ -18,6 +18,10 @@ void printPaths(Node * root);
 void mirror(Node * root);
 void doubleTree(Node * root);
 bool sameTree(Node * a, Node * b);
+int  countTrees(int numKeys);
+int  minValueHelper(Node * root);
+int  maxValueHelper(Node * root);
+int  isBST(Node * root);
 
 int main(int argc, char * argv[])
 {
@@ -44,8 +48,6 @@ int main(int argc, char * argv[])
     insert(root, 7);
     insert(root, 10);
     insert(root, 2);
-    //insert(root, -1);
-    //insert(root, -2);
 
     myPrintTree(root);
     cout << "size: " << size(root) << endl;
@@ -59,9 +61,9 @@ int main(int argc, char * argv[])
     cout << endl;
     cout << "printPaths:"<< endl;
     printPaths(root);
-    cout << "mirror:"<< endl;
+    //cout << "mirror:"<< endl;
     //mirror(root);
-    myPrintTree(root);
+    //printPaths(root);
 
     Node n1(1, nullptr, nullptr);
     Node n2(3, nullptr, nullptr);
@@ -82,6 +84,10 @@ int main(int argc, char * argv[])
     printPaths(root3);
 
     cout << "Are doubleTree1 and doubleTree2 equal? " << sameTree(root2, root3) << endl;
+
+    cout << "minValueHelper: " << minValueHelper(root) << endl;
+    cout << "maxValueHelper: " << maxValueHelper(root) << endl;
+    cout << "isBST: " << isBST(root) << endl;
 
     int x;
     cin >> x;
@@ -371,16 +377,112 @@ bool sameTree(Node * a, Node * b)
 
 // Problem 12: countTree 
 // Suppose you are building an N node binary search tree with the values 1..N.
-// How many structurally different  binary search trees are there that store those values?
-// Write a recursive function that, given the number of distinct values, computes the number of structurally unique binary search trees
-// that store those values. For example, countTrees(4) should return 14, since there are 14 
-// structurally unique binary search trees that store 1, 2, 3, and 4. 
-// The base case is easy, and the recursion is short but dense. 
-// Your code should not construct any actual trees; it's just a counting problem.
+// How many structurally different binary search trees are there that store those values?
 int countTrees(int numKeys)
 {
-    if (numKeys == 0)
+    if (numKeys <= 1)
     {
         return 1;
     }
+
+    int left, right;
+    int sum = 0;
+
+    for (int root = 1; root <= numKeys; ++root)
+    {
+        left = countTrees(root - 1);
+        right = countTrees(numKeys - root);
+        sum += left * right;
+    }
+
+    return sum;
+}
+
+// Problem 13: isBST
+// Assume you have the helper functions minValue() and maxValue(), which return
+// the min or max value for a non-empty tree.
+int minValueHelper(Node * root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    int min = root->data;
+
+    if (root->left != nullptr)
+    {
+        int minLeft = minValueHelper(root->left);
+
+        if (minLeft < min)
+        {
+            min = minLeft;
+        }
+    }
+
+    if (root->right != nullptr)
+    {
+        int minRight = minValueHelper(root->right);
+
+        if (minRight < min)
+        {
+            min = minRight;
+        }
+    }
+
+    return min;
+}
+
+int maxValueHelper(Node * root)
+{
+    if (root == nullptr)
+    {
+        return 0;
+    }
+
+    int max = root->data;
+
+    if (root->left != nullptr)
+    {
+        int maxLeft = maxValueHelper(root->left);
+
+        if (maxLeft > max)
+        {
+            max = maxLeft;
+        }
+    }
+
+    if (root->right != nullptr)
+    {
+        int maxRight = maxValueHelper(root->right);
+
+        if (maxRight > max)
+        {
+            max = maxRight;
+        }
+    }
+
+    return max;
+}
+
+int isBST(Node * root)
+{
+    if (root == nullptr)
+    {
+        return true;
+    }
+
+    if ((root->left != nullptr) &&
+        (root->data < minValueHelper(root->left)))
+    {
+        return false;
+    }
+
+    if ((root->right != nullptr) &&
+        (root->data >= maxValueHelper(root->right)))
+    {
+        return false;
+    }
+
+    return (isBST(root->left) && isBST(root->right));
 }
