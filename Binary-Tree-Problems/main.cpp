@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <limits>
 
 #include "Node.h"
 
@@ -22,6 +23,8 @@ int  countTrees(int numKeys);
 int  minValueHelper(Node * root);
 int  maxValueHelper(Node * root);
 int  isBST(Node * root);
+int  isBSTRecur(Node * root, int min, int max);
+int  isBST2(Node * root);
 
 int main(int argc, char * argv[])
 {
@@ -485,4 +488,28 @@ int isBST(Node * root)
     }
 
     return (isBST(root->left) && isBST(root->right));
+}
+
+// Problem 14
+// More efficient solution to problem 13
+int isBSTRecur(Node * root, int min, int max)
+{
+    if (root == nullptr)
+    {
+        return true;
+    }
+
+    if ((root->data < min) ||
+        (root->data > max))
+    {
+        return false;
+    }
+
+    return ((isBSTRecur(root->left, min, root->data)) &&
+            (isBSTRecur(root->right, root->data + 1, max)));
+}
+
+int isBST2(Node * root)
+{
+    return isBSTRecur(root, numeric_limits<int>::min(), numeric_limits<int>::max()); 
 }
