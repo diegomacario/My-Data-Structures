@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
 
     printNodes(copy);
 
-    cout << "The length of the linked list is: " << length(copy) << endl;
+    cout << "The length of the linked list is: " << length(copy) << '\n';
 
     int x;
     cin >> x;
@@ -90,7 +90,7 @@ void printNodes(Node * head)
     int i = 0;
     while (head != nullptr)
     {
-        cout << "Node " << i << ": " << head->data << endl;
+        cout << "Node " << i << ": " << head->data << '\n';
         head = head->next;
         ++i;
     }
@@ -103,7 +103,7 @@ void printNodesExpressive(Node * head)
     int i = 0;
     while (current != nullptr)
     {
-        cout << "Node " << i << ": " << current->data << endl;
+        cout << "Node " << i << ": " << current->data << '\n';
         current = current->next;
         ++i;
     }

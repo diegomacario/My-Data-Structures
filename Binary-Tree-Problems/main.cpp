@@ -43,28 +43,28 @@ int main(int argc, char * argv[])
     // Root
     Node * root = &node6;
 
-    cout << "lookup(1): " << lookup(root, 1) << endl;
-    cout << "lookup(5): " << lookup(root, 5) << endl;
-    cout << "lookup(2): " << lookup(root, 2) << endl;
-    cout << "lookup(11): " << lookup(root, 11) << endl;
+    cout << "lookup(1): " << lookup(root, 1) << '\n';
+    cout << "lookup(5): " << lookup(root, 5) << '\n';
+    cout << "lookup(2): " << lookup(root, 2) << '\n';
+    cout << "lookup(11): " << lookup(root, 11) << '\n';
 
     insert(root, 7);
     insert(root, 10);
     insert(root, 2);
 
     myPrintTree(root);
-    cout << "size: " << size(root) << endl;
-    cout << "maxDepth: " << maxDepth(root) << endl;
-    cout << "minValue: " << minValue(root) << endl;
-    cout << "printTree:"<< endl;
+    cout << "size: " << size(root) << '\n';
+    cout << "maxDepth: " << maxDepth(root) << '\n';
+    cout << "minValue: " << minValue(root) << '\n';
+    cout << "printTree:"<< '\n';
     printTree(root);
-    cout << endl;
-    cout << "printPostorder:"<< endl;
+    cout << '\n';
+    cout << "printPostorder:"<< '\n';
     printPostorder(root);
-    cout << endl;
-    cout << "printPaths:"<< endl;
+    cout << '\n';
+    cout << "printPaths:"<< '\n';
     printPaths(root);
-    //cout << "mirror:"<< endl;
+    //cout << "mirror:"<< '\n';
     //mirror(root);
     //printPaths(root);
 
@@ -73,7 +73,7 @@ int main(int argc, char * argv[])
     Node n3(2, &n1, &n2);
     Node * root2 = &n3;
 
-    cout << "doubleTree1:"<< endl;
+    cout << "doubleTree1:"<< '\n';
     doubleTree(root2);
     printPaths(root2);
 
@@ -82,15 +82,15 @@ int main(int argc, char * argv[])
     Node n6(2, &n4, &n5);
     Node * root3 = &n6;
 
-    cout << "doubleTree2:"<< endl;
+    cout << "doubleTree2:"<< '\n';
     doubleTree(root3);
     printPaths(root3);
 
-    cout << "Are doubleTree1 and doubleTree2 equal? " << sameTree(root2, root3) << endl;
+    cout << "Are doubleTree1 and doubleTree2 equal? " << sameTree(root2, root3) << '\n';
 
-    cout << "minValueHelper: " << minValueHelper(root) << endl;
-    cout << "maxValueHelper: " << maxValueHelper(root) << endl;
-    cout << "isBST: " << isBST(root) << endl;
+    cout << "minValueHelper: " << minValueHelper(root) << '\n';
+    cout << "maxValueHelper: " << maxValueHelper(root) << '\n';
+    cout << "isBST: " << isBST(root) << '\n';
 
     int x;
     cin >> x;
@@ -162,7 +162,7 @@ void myPrintTree(Node * root)
             cout << ", " << "null";
         }
 
-        cout << endl;
+        cout << '\n';
 
         myPrintTree(root->left);
         myPrintTree(root->right);
@@ -295,7 +295,7 @@ void printPathsHelper(Node * node, vector<int> path)
         {
             cout << *it << ' ';
         }
-        cout << endl;
+        cout << '\n';
 
         return;
     }

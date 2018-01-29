@@ -39,65 +39,65 @@ int main(int argc, char * argv[])
     int data[10] = {1, 2, 3, 4, 6, 7, 8, 9, 10, 11};
     Node * head = buildLinkedList(data, 10);
 
-    cout << "Original linked list:" << endl;
+    cout << "Original linked list:" << '\n';
     printNodes(head);
 
-    cout << "Sorted insert 0:" << endl;
+    cout << "Sorted insert 0:" << '\n';
     Node * newNode1 = new Node(0, nullptr);
     SortedInsertWithLocalReference(head, newNode1);
     printNodes(head);
 
-    cout << "Sorted insert 5:" << endl;
+    cout << "Sorted insert 5:" << '\n';
     Node * newNode2 = new Node(5, nullptr);
     SortedInsertWithLocalReference(head, newNode2);
     printNodes(head);
 
-    cout << "The value at index 0 is: " << GetNth(head, 0) << endl;
-    cout << "Pop 0: " << Pop(head) << endl;
-    cout << "The length of the linked list is: " << length(head) << endl;
+    cout << "The value at index 0 is: " << GetNth(head, 0) << '\n';
+    cout << "Pop 0: " << Pop(head) << '\n';
+    cout << "The length of the linked list is: " << length(head) << '\n';
 
-    cout << "Insert sort:" << endl;
+    cout << "Insert sort:" << '\n';
     int data2[12] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1};
     Node * head2 = buildLinkedList(data2, 12);
-    cout << "Before:" << endl;
+    cout << "Before:" << '\n';
     printNodes(head2);
-    cout << "After" << endl;
+    cout << "After" << '\n';
     InsertSort(head2);
     printNodes(head2);
 
-    cout << "Append:" << endl;
+    cout << "Append:" << '\n';
     Append(head, head2);
     printNodes(head);
 
     DeleteList(head);
     DeleteList(head2);
 
-    cout << "Front back split:" << endl;
+    cout << "Front back split:" << '\n';
     int data3[] = {1, 2, 3, 4, 5};
     Node * source = buildLinkedList(data3, 5);
     Node * front;
     Node * back;
     FrontBackSplit2(source, front, back);
-    cout << "Front:" << endl;
+    cout << "Front:" << '\n';
     printNodes(front);
-    cout << "Back:" << endl;
+    cout << "Back:" << '\n';
     printNodes(back);
 
     DeleteList(front);
     DeleteList(back);
 
-    cout << "Remove duplicates:" << endl;
+    cout << "Remove duplicates:" << '\n';
     int data4[] = {0, 0, 0, 1, 1, 1, 1, 2, 2, 3, 4, 4, 4, 4};
     Node * linkedListWithDuplicates = buildLinkedList(data4, 14);
-    cout << "Before:" << endl;
+    cout << "Before:" << '\n';
     printNodes(linkedListWithDuplicates);
-    cout << "After:" << endl;
+    cout << "After:" << '\n';
     RemoveDuplicates2(linkedListWithDuplicates);
     printNodes(linkedListWithDuplicates);
 
     DeleteList(linkedListWithDuplicates);
 
-    cout << "Reverse:" << endl;
+    cout << "Reverse:" << '\n';
     int data5[] = {6, 7, 8, 5, 4, 3, 2, 1};
     Node * toReverse = buildLinkedList(data5, 8);
     RecursiveReverse(toReverse);
@@ -137,7 +137,7 @@ void printNodes(Node * head)
     int count = 0;
     while (current != nullptr)
     {
-        cout << "Node " << count << ": " << current->data << endl;
+        cout << "Node " << count << ": " << current->data << '\n';
         ++count;
         current = current->next;
     }

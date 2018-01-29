@@ -11,13 +11,17 @@
 		},
 		{
 			"path": "Binary-Tree-Problems"
+		},
+		{
+			"path": "Recursion"
 		}
 	],
 	"settings": {
 		"files.associations": {
 			"xstring": "cpp",
 			"xutility": "cpp",
-			"xlocale": "cpp"
+			"xlocale": "cpp",
+			"iostream": "cpp"
 		}
 	}
 }

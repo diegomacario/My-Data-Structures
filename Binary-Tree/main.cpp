@@ -25,10 +25,10 @@ int main(int argc, char * argv[])
     // Root
     Node * root = &node6;
 
-    cout << "lookup(1): " << lookup(root, 1) << endl;
-    cout << "lookup(5): " << lookup(root, 5) << endl;
-    cout << "lookup(2): " << lookup(root, 2) << endl;
-    cout << "lookup(11): " << lookup(root, 11) << endl;
+    cout << "lookup(1): " << lookup(root, 1) << '\n';
+    cout << "lookup(5): " << lookup(root, 5) << '\n';
+    cout << "lookup(2): " << lookup(root, 2) << '\n';
+    cout << "lookup(11): " << lookup(root, 11) << '\n';
 
     insert(root, 7);
     insert(root, 10);
@@ -106,7 +106,7 @@ void printTree(Node * root)
             cout << ", " << "null";
         }
 
-        cout << endl;
+        cout << '\n';
 
         printTree(root->left);
         printTree(root->right);
