@@ -18,7 +18,7 @@ int main(int argc, char * argv[])
     cin >> x;
 }
 
-// This function return the nth fibonacci number
+// This function returns the nth fibonacci number
 // Its time complexity is O(n - 1) + O(n - 2)
 // Its space complexity is O(n) because of the call stack size 
 int fib(int n)
@@ -31,7 +31,7 @@ int fib(int n)
     return fib(n - 1) + fib(n - 2);
 }
 
-// This function return the nth fibonacci number
+// This function returns the nth fibonacci number
 // Its time complexity is O(n)
 // Its space complexity of O(1)
 int fib2(int n)
