@@ -128,7 +128,7 @@ void insert(Node *& root, int data)
     {
         insert(root->left, data);
     }
-    else // data > root->data
+    else
     {
         insert(root->right, data);
     }
