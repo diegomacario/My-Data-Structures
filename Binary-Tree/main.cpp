@@ -61,7 +61,7 @@ bool lookup(Node * root, int target)
     }
 }
 
-// Inserts given value in BST
+// Inserts given value in BST 
 void insert(Node *& root, int data)
 {
     if (root == nullptr)
