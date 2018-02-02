@@ -7,7 +7,7 @@ int fib2(int n);
 
 int main(int argc, char * argv[])
 {
-    cout << "fib(0) = " << fib2(0) << '\n';
+    cout << "fib(0) = " << fib2(0) << '\n'; 
     cout << "fib(1) = " << fib2(1) << '\n';
     cout << "fib(2) = " << fib2(2) << '\n';
     cout << "fib(3) = " << fib2(3) << '\n';
