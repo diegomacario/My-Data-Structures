@@ -10,3 +10,7 @@ Basic implementations of a variety of data structures.
 ### Binary Trees
 
 - Binary tree basics and problems: http://cslibrary.stanford.edu/110/BinaryTrees.pdf
+
+### Streams
+
+- Stream basics and examples: https://courses.cs.vt.edu/cs1044/Notes/C04.IO.pdf
